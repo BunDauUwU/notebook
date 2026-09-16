@@ -10,22 +10,63 @@
 
 #include "euclid.h"
 
-const ll mod = 17; // change to something else
-struct Mod {
-	ll x;
-	Mod(ll y) : Mod(y%mod+mod,0){}
-	Mod(ll y,int) : x(y<mod?y:y-mod){}
-	Mod operator+(Mod b) { return {x + b.x,0}; }
-	Mod operator-(Mod b) { return {x - b.x + mod,0}; }
-	Mod operator*(Mod b) { return {x * b.x % mod,0}; }
-	Mod operator/(Mod b) { return *this * invert(b); }
-	Mod invert(Mod a) {
-		ll x, y, g = euclid(a.x, mod, x, y);
-		assert(g == 1); return x;
-	}
-	Mod operator^(ll e) {
-		if (!e) return 1;
-		Mod r = *this ^ (e / 2); r = r * r;
-		return e&1 ? *this * r : r;
-	}
+template <ll MOD>
+struct modnum {
+    static constexpr bool big = MOD > numeric_limits<int>::max();
+
+    using S = conditional_t<big, ll, int>;
+    using L = conditional_t<big, __int128, ll>;
+
+    S x;
+
+    modnum(ll v = 0) {
+        v %= MOD;
+        x = v - MOD * (v < 0);
+    }
+
+    modnum pow(ll n) const {
+        modnum res = 1, a = *this;
+        for (; n; n >>= 1, a *= a)
+            if (n & 1) res *= a;
+        return res;
+    }
+
+    modnum inv() const {
+        return pow(MOD - 2);
+    }
+
+    modnum& operator+=(const modnum& a) {
+        if ((x += a.x) >= MOD) x -= MOD;   return *this;
+    }
+
+    modnum& operator-=(const modnum& a) {
+        if ((x -= a.x) < 0) x += MOD;      return *this;
+    }
+
+    modnum& operator*=(const modnum& a) {
+        x = static_cast<L>(x) * a.x % MOD; return *this;
+    }
+
+    modnum& operator/=(const modnum& a) {
+        return *this *= a.inv();
+    }
+
+    friend modnum operator+(modnum a, const modnum& b) { return a += b; }
+    friend modnum operator-(modnum a, const modnum& b) { return a -= b; }
+    friend modnum operator*(modnum a, const modnum& b) { return a *= b; }
+    friend modnum operator/(modnum a, const modnum& b) { return a /= b; }
+
+    friend bool operator==(const modnum& a, const modnum& b) { return a.x == b.x; }
+    friend bool operator!=(const modnum& a, const modnum& b) { return a.x != b.x; }
+    friend bool operator<(const modnum& a, const modnum& b) { return a.x < b.x; }
+
+    friend ostream& operator<<(ostream& os, const modnum& a) { return os << a.x; }
+    friend istream& operator>>(istream& is, modnum& a) {
+        ll v;
+        is >> v;
+        a = v;
+        return is;
+    }
 };
+
+using mint = modnum<MOD>;
