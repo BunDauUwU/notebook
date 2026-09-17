@@ -2,6 +2,8 @@
 
 An optimized ICPC reference notebook maintained by **lumie** for competition use.
 It contains compact, copy-pasteable C++ code for programming competitions.
+Every `.h` implementation under `content/` is included in the generated PDF;
+`make check-includes` verifies that chapter files do not omit one.
 
 See [kactl.pdf](./kactl.pdf) for the generated reference and
 [content/](./content/) for its source code. The checked-in PDF is only a

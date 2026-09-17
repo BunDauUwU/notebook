@@ -21,7 +21,7 @@ fast: check-latex | build
 	$(LATEXCMD) content/kactl.tex </dev/null
 	cp build/kactl.pdf kactl.pdf
 
-kactl: check-latex test-session.pdf | build
+kactl: check-latex check-includes test-session.pdf | build
 	$(LATEXCMD) content/kactl.tex && $(LATEXCMD) content/kactl.tex
 	cp build/kactl.pdf kactl.pdf
 
@@ -31,7 +31,7 @@ clean:
 veryclean: clean
 	rm -f kactl.pdf test-session.pdf
 
-.PHONY: help fast kactl clean veryclean check-latex
+.PHONY: help fast kactl clean veryclean check-latex check-includes
 
 check-latex:
 	@command -v pdflatex >/dev/null 2>&1 || { \
@@ -40,6 +40,17 @@ check-latex:
 		echo "The existing kactl.pdf is a stale snapshot and was not regenerated." >&2; \
 		exit 127; \
 	}
+
+check-includes:
+	@missing=0; \
+	for file in $$(find content -name '*.h' -type f); do \
+		chapter="$${file%/*}/chapter.tex"; \
+		name="$${file##*/}"; \
+		if ! grep -q "^[[:space:]]*\\\\kactlimport{$$name}" "$$chapter"; then \
+			echo "Missing from notebook: $$file" >&2; missing=1; \
+		fi; \
+	done; \
+	test $$missing -eq 0
 
 build:
 	mkdir -p build/
