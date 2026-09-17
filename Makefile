@@ -37,6 +37,7 @@ check-latex:
 	@command -v pdflatex >/dev/null 2>&1 || { \
 		echo "Error: pdflatex was not found in PATH." >&2; \
 		echo "Install TeX Live (Ubuntu/Debian: sudo apt install texlive-latex-extra) and retry." >&2; \
+		echo "The existing kactl.pdf is a stale snapshot and was not regenerated." >&2; \
 		exit 127; \
 	}
 

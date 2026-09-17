@@ -3,7 +3,14 @@
 An optimized ICPC reference notebook maintained by **lumie** for competition use.
 It contains compact, copy-pasteable C++ code for programming competitions.
 
-See [kactl.pdf](./kactl.pdf) for the final, browsable version, and [content/](./content/) for raw source code.
+See [kactl.pdf](./kactl.pdf) for the generated reference and
+[content/](./content/) for its source code. The checked-in PDF is only a
+snapshot: after adding or changing code, run `make kactl` successfully before
+opening it, otherwise it will still show the previous notebook version.
+
+The paste-ready toroidal grid walk solution is available directly at
+[`content/strings/ToroidalGridWalks.cpp`](./content/strings/ToroidalGridWalks.cpp)
+and is imported into the Strings chapter.
 
 ## Aspirations
 
@@ -42,6 +49,10 @@ sudo apt install texlive-latex-extra
 Verify the installation with `pdflatex --version`. If the command is still
 not found, restart the shell or add the TeX installation's `bin` directory to
 `PATH` before running `make kactl` again.
+
+`make kactl` first builds the test-session document. Therefore, an error that
+mentions `content/test-session/test-session.tex` means the build stopped before
+the main PDF was regenerated; it does not mean the Strings chapter was skipped.
 
 Tips:
 1. Check out what's excluded by default by running `make showexcluded`.
