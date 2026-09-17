@@ -31,6 +31,18 @@ The algorithms that are not included in the pdf are left commented out in `chapt
 To build Lumie's notebook, type `make kactl` (or `make fast`) on a \*nix machine -- this will update `kactl.pdf`.
 (Windows might work as well, but is not tested.) `doc/README` has a few more notes about this.
 
+The build requires `pdflatex`, Python 3, and GNU Make. On Ubuntu or Debian,
+install the required LaTeX engine and packages with:
+
+```sh
+sudo apt update
+sudo apt install texlive-latex-extra
+```
+
+Verify the installation with `pdflatex --version`. If the command is still
+not found, restart the shell or add the TeX installation's `bin` directory to
+`PATH` before running `make kactl` again.
+
 Tips:
 1. Check out what's excluded by default by running `make showexcluded`.
 The default configuration is chosen to be a reasonable balance for beginners

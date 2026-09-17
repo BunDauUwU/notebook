@@ -22,8 +22,18 @@ Unfortunately it doesn't contain that much at the moment, but good luck anyway :
 **************************************************
 The build process uses the following tools:
 	LaTeX (pdflatex together with some common packages such as 'listings')
-	Python
+	Python 3
 	make
+
+On Ubuntu/Debian, install the LaTeX requirements with:
+	sudo apt update
+	sudo apt install texlive-latex-extra
+
+Confirm that the executable is available before building:
+	pdflatex --version
+
+An error such as "pdflatex: No such file or directory" means that TeX Live
+is not installed, or that its bin directory is not present in PATH.
 
 It has been tested with the following versions:
 	pdfTeX 3.141592-1.40.3-2.2 (Web2C 7.5.6), part of TeXLive-2007
@@ -36,9 +46,11 @@ but should (could?) work with other versions too.
 
 
 **************************************************
-* Building the KACTL                             *
+* Building Lumie's notebook                     *
 **************************************************
-To build the KACTL should be a simple step. Just navigate to the root folder for this project and type 'make kactl' (and do your normal Voodoo dance that you do to get an accepted submission). If the build process fails, then it's time to start improving your Voodoo dance, but in the meantime, have a look the debug section below.
+To build the notebook, navigate to the project root and type 'make kactl'.
+The target first builds test-session.pdf, then runs pdflatex twice on the main
+notebook so references and the table of contents are up to date.
 
 **************************************************
 * Debug the build process                        *

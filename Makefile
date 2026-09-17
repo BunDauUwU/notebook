@@ -17,11 +17,11 @@ help:
 	@echo ""
 	@echo "For more information see the file 'doc/README'"
 
-fast: | build
+fast: check-latex | build
 	$(LATEXCMD) content/kactl.tex </dev/null
 	cp build/kactl.pdf kactl.pdf
 
-kactl: test-session.pdf | build
+kactl: check-latex test-session.pdf | build
 	$(LATEXCMD) content/kactl.tex && $(LATEXCMD) content/kactl.tex
 	cp build/kactl.pdf kactl.pdf
 
@@ -31,7 +31,14 @@ clean:
 veryclean: clean
 	rm -f kactl.pdf test-session.pdf
 
-.PHONY: help fast kactl clean veryclean
+.PHONY: help fast kactl clean veryclean check-latex
+
+check-latex:
+	@command -v pdflatex >/dev/null 2>&1 || { \
+		echo "Error: pdflatex was not found in PATH." >&2; \
+		echo "Install TeX Live (Ubuntu/Debian: sudo apt install texlive-latex-extra) and retry." >&2; \
+		exit 127; \
+	}
 
 build:
 	mkdir -p build/
@@ -42,7 +49,7 @@ test:
 test-compiles:
 	./doc/scripts/compile-all.sh .
 
-test-session.pdf: content/test-session/test-session.tex content/test-session/chapter.tex | build
+test-session.pdf: content/test-session/test-session.tex content/test-session/chapter.tex | check-latex build
 	$(LATEXCMD) content/test-session/test-session.tex
 	cp build/test-session.pdf test-session.pdf
 
