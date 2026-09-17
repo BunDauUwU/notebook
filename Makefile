@@ -3,11 +3,11 @@ export TEXINPUTS=.:content/tex/:
 export max_print_line = 1048576
 
 help:
-	@echo "This makefile builds KACTL (KTH Algorithm Competition Template Library)"
+	@echo "This makefile builds Lumie's ICPC Team Notebook"
 	@echo ""
 	@echo "Available commands are:"
-	@echo "	make fast		- to build KACTL, quickly (only runs LaTeX once)"
-	@echo "	make kactl		- to build KACTL"
+	@echo "	make fast		- to build the notebook quickly (one LaTeX pass)"
+	@echo "	make kactl		- to build Lumie's notebook"
 	@echo "	make clean		- to clean up the build process"
 	@echo "	make veryclean		- to clean up and remove kactl.pdf"
 	@echo "	make test		- to run all the stress tests in stress-tests/"
@@ -17,11 +17,11 @@ help:
 	@echo ""
 	@echo "For more information see the file 'doc/README'"
 
-fast: | build
+fast: check-latex | build
 	$(LATEXCMD) content/kactl.tex </dev/null
 	cp build/kactl.pdf kactl.pdf
 
-kactl: test-session.pdf | build
+kactl: check-latex test-session.pdf | build
 	$(LATEXCMD) content/kactl.tex && $(LATEXCMD) content/kactl.tex
 	cp build/kactl.pdf kactl.pdf
 
@@ -31,7 +31,15 @@ clean:
 veryclean: clean
 	rm -f kactl.pdf test-session.pdf
 
-.PHONY: help fast kactl clean veryclean
+.PHONY: help fast kactl clean veryclean check-latex
+
+check-latex:
+	@command -v pdflatex >/dev/null 2>&1 || { \
+		echo "Error: pdflatex was not found in PATH." >&2; \
+		echo "Install TeX Live (Ubuntu/Debian: sudo apt install texlive-latex-extra) and retry." >&2; \
+		echo "The existing kactl.pdf is a stale snapshot and was not regenerated." >&2; \
+		exit 127; \
+	}
 
 build:
 	mkdir -p build/
@@ -42,7 +50,7 @@ test:
 test-compiles:
 	./doc/scripts/compile-all.sh .
 
-test-session.pdf: content/test-session/test-session.tex content/test-session/chapter.tex | build
+test-session.pdf: content/test-session/test-session.tex content/test-session/chapter.tex | check-latex build
 	$(LATEXCMD) content/test-session/test-session.tex
 	cp build/test-session.pdf test-session.pdf
 
