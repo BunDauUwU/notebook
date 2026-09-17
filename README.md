@@ -1,26 +1,26 @@
-# KACTL
+# Lumie's ICPC Team Notebook
 
-This repo hosts KACTL, [KTH](https://en.wikipedia.org/wiki/KTH_Royal_Institute_of_Technology)'s ICPC team reference document.
-It consists of 25 pages of copy-pasteable C++ code, for use in ICPC-style programming competitions.
+An optimized ICPC reference notebook maintained by **lumie** for competition use.
+It contains compact, copy-pasteable C++ code for programming competitions.
 
 See [kactl.pdf](./kactl.pdf) for the final, browsable version, and [content/](./content/) for raw source code.
 
 ## Aspirations
 
-KACTL algorithms should be: useful, short, fast enough, well tested, and if relevant, readable and easy to modify.
+Lumie notebook algorithms should be: useful, short, fast enough, well tested, and if relevant, readable and easy to modify.
 They should *not* be overly generic, since code is manually typed and that just adds overhead.
 Due to space issues, we also exclude algorithms that are very common/simple (e.g., Dijkstra), or very uncommon (general weighted matching).
 
 If you feel that something is missing, could be cleaned up, or notice a bug, please file an issue or [send a pull request](https://help.github.com/articles/fork-a-repo/)!
 
-## Customizing KACTL
+## Customizing the notebook
 
-While KACTL is usable as is, it's also easy to modify if you want to create a personalized copy.
+While Lumie's notebook is usable as is, it's also easy to modify if you want to create a personalized copy.
 In particular, you may want to change the cover page, or make your own choice of algorithms to include --
 due to space concerns, not all algorithms in the repo are included in the pdf.
 You may also want to enable colored syntax highlighting.
 
-`content/kactl.tex` is the main file of KACTL, and can be edited to change team name, logo, syntax highlighting, etc.
+`content/kactl.tex` is the notebook's main file, and can be edited to change team name, logo, syntax highlighting, etc.
 It imports `chapter.tex` files from each of the `content/` subdirectories, which define the contents of each chapter.
 These include source code, text and math in the form of LaTeX.
 To add/remove code from a chapter, add/remove a corresponding `\kactlimport` line from the `chapter.tex` file.
@@ -28,8 +28,20 @@ For nicer alignment you might want to insert `\hardcolumnbreak`, `\columnbreak` 
 though this is usually only done before important contests, and not on the main branch.
 The algorithms that are not included in the pdf are left commented out in `chapter.tex`.
 
-To build KACTL, type `make kactl` (or `make fast`) on a \*nix machine -- this will update `kactl.pdf`.
+To build Lumie's notebook, type `make kactl` (or `make fast`) on a \*nix machine -- this will update `kactl.pdf`.
 (Windows might work as well, but is not tested.) `doc/README` has a few more notes about this.
+
+The build requires `pdflatex`, Python 3, and GNU Make. On Ubuntu or Debian,
+install the required LaTeX engine and packages with:
+
+```sh
+sudo apt update
+sudo apt install texlive-latex-extra
+```
+
+Verify the installation with `pdflatex --version`. If the command is still
+not found, restart the shell or add the TeX installation's `bin` directory to
+`PATH` before running `make kactl` again.
 
 Tips:
 1. Check out what's excluded by default by running `make showexcluded`.
@@ -42,7 +54,7 @@ hashing ignores whitespace and comments.
 
 ## Coding style
 
-KACTL uses a relatively terse coding style, with a handful of macros/typedefs defined in the
+Lumie's notebook uses a relatively terse coding style, with a handful of macros/typedefs defined in the
 [template](./content/contest/template.cpp) that help shorten the code.
 Line width is 63 chars, with tabs for indentation (tab = 2 spaces in the pdf).
 
@@ -55,7 +67,7 @@ Occasionally the generated kactl.pdf is committed to the repo for convenience, b
 
 ## Testing
 
-KACTL aims for a high level of confidence in algorithm correctness.
+Lumie's notebook aims for a high level of confidence in algorithm correctness.
 Testing is done both on online judges and (for newer algorithms) with stress tests
 that compare output to a more naive algorithm for a large amount of randomly generated cases.
 These tests live in the `stress-tests` directory, and are run with CI on every commit. The CI also verifies that all headers compile (except for an exclude list in `docs/scripts/skip_headers`) and that the latex compiles.
