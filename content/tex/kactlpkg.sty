@@ -1,4 +1,4 @@
-% This file contains LaTeX macros for KACTL
+% This file contains LaTeX macros for Lumie's notebook
 % License: CC0
 \ProvidesPackage{kactlpkg}
 
@@ -48,8 +48,8 @@
 }
 
 % Some default config
-\subtitle{{\tiny new}KACTL}
-\title{KTH Algorithm Competition Template Library}
+\subtitle{Lumie}
+\title{Lumie's ICPC Team Notebook}
 \newcommand{\PDFColor}{0}
 \def\@builddir{build}
 
@@ -221,7 +221,8 @@
 	\begin{center}
 		\strut % Magic
 		\vspace{3cm}\\
-		\includegraphics[width=3cm]{\@unilogo}\\
+		\ifthenelse{\equal{\@unilogo}{}}{}
+			{\includegraphics[width=3cm]{\@unilogo}\\}
 		{\fontsize{25}{30}\selectfont \@unilong\\}
 		{\fontsize{60}{60}\selectfont \@teamname\\}
 		\vspace{0.5cm}
